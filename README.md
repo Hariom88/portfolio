@@ -4,11 +4,11 @@ A modern, responsive, and production-ready portfolio website designed for a Java
 
 ## Features
 
-- **Dark Professional Theme**: Deep navy background with vibrant blue accents.
+- **Dark/Light Mode**: User-friendly theme toggle with preference persistence in local storage.
 - **Responsive Design**: Fully responsive layout that works on mobile, tablet, and desktop.
 - **Smooth Animations**: Intersection Observer-based fade-in animations on scroll.
 - **Interactive Elements**: Mobile navigation, tabbed experience section, and hover effects.
-- **Contact Form**: Integrated with EmailJS (requires configuration) or ready for backend API integration.
+- **Contact Form**: Integrated with FormSubmit.co for direct email delivery.
 
 ## Project Structure
 

@@ -7,6 +7,30 @@ hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
 });
 
+// Theme Toggle Logic
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+const themeIcon = themeToggle.querySelector('i');
+
+// Check for saved theme in localStorage
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+    body.classList.add('light-mode');
+    themeIcon.classList.replace('fa-moon', 'fa-sun');
+}
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+
+    if (body.classList.contains('light-mode')) {
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'light');
+    } else {
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
 // Smooth Scroll for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -28,8 +52,8 @@ tabs.forEach(tab => {
         // Remove active class from all tabs and panels
         tabs.forEach(t => t.classList.remove('active'));
         panels.forEach(p => {
-          p.classList.remove('active');
-          p.style.display = 'none'; // Ensure display is none for non-active
+            p.classList.remove('active');
+            p.style.display = 'none'; // Ensure display is none for non-active
         });
 
         // Add active class to clicked tab
@@ -85,51 +109,64 @@ contactForm.addEventListener('submit', (e) => {
     const originalText = btn.innerText;
     btn.innerText = 'Sending...';
 
-    // If EmailJS is available and the service/template IDs are set, use it
+    const formData = new FormData(contactForm);
+
+    // If EmailJS is properly configured, use it
     if (window.emailjs && EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID' && EMAILJS_TEMPLATE_ID !== 'YOUR_TEMPLATE_ID') {
         emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm)
             .then(() => {
-                btn.innerText = 'Message Sent!';
-                btn.style.backgroundColor = '#64ffda';
-                btn.style.color = '#0a192f';
-
-                formStatus.innerText = "Thanks for reaching out! I'll get back to you soon.";
-                formStatus.style.color = '#64ffda';
-                formStatus.style.marginTop = '10px';
-
-                contactForm.reset();
-
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.backgroundColor = '';
-                    btn.style.color = '';
-                    formStatus.innerText = '';
-                }, 5000);
+                showSuccess();
             }, (error) => {
                 console.error('EmailJS error:', error);
-                btn.innerText = originalText;
-                formStatus.innerText = 'Failed to send message. Please try again later.';
-                formStatus.style.color = '#ff6b6b';
+                showError();
             });
     } else {
-        // Fallback: mock sending (keeps current behavior if EmailJS isn't configured)
+        // Fallback: Use FormSubmit.co AJAX to send the email directly
+        fetch("https://formsubmit.co/ajax/hariomdubey906@gmail.com", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(Object.fromEntries(formData))
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success === "false") {
+                    showError();
+                } else {
+                    showSuccess();
+                }
+            })
+            .catch(error => {
+                console.error('FormSubmit error:', error);
+                showError(); // Or fallback to mock success if fetch fails due to extensive blocking
+            });
+    }
+
+    function showSuccess() {
+        btn.innerText = 'Message Sent!';
+        btn.style.backgroundColor = '#64ffda';
+        btn.style.color = '#0a192f';
+
+        formStatus.innerText = "Thanks for reaching out! I'll get back to you soon.";
+        formStatus.style.color = '#64ffda';
+        formStatus.style.marginTop = '10px';
+
+        contactForm.reset();
+
         setTimeout(() => {
-            btn.innerText = 'Message Sent!';
-            btn.style.backgroundColor = '#64ffda';
-            btn.style.color = '#0a192f';
+            btn.innerText = originalText;
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+            formStatus.innerText = '';
+        }, 5000);
+    }
 
-            formStatus.innerText = "Thanks for reaching out! I'll get back to you soon.";
-            formStatus.style.color = '#64ffda';
-            formStatus.style.marginTop = '10px';
-
-            contactForm.reset();
-
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.backgroundColor = '';
-                btn.style.color = '';
-                formStatus.innerText = '';
-            }, 5000);
-        }, 1500);
+    function showError() {
+        btn.innerText = originalText;
+        formStatus.innerText = 'Failed to send message. Please try again later.';
+        formStatus.style.color = '#ff6b6b';
+        formStatus.style.marginTop = '10px';
     }
 });

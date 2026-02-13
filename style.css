@@ -12,6 +12,37 @@
     --transition: all 0.3s ease-in-out;
 }
 
+body.light-mode {
+    --bg-color: #f0f4f8;
+    --text-primary: #0a192f;
+    --text-secondary: #495670;
+    --accent-color: #007bff;
+    /* Slightly deeper blue for light mode contrast */
+    --card-bg: #ffffff;
+    --card-hover: #e6f1ff;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 50%;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(87, 193, 255, 0.1);
+    transform: rotate(15deg);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -533,6 +564,11 @@ footer {
 
     .navbar {
         padding: 20px;
+    }
+
+    .theme-toggle {
+        margin-left: auto;
+        margin-right: 15px;
     }
 
     .hero-title {
