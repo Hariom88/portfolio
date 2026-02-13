@@ -513,35 +513,58 @@ footer {
     }
 }
 
+/* Fade In Animation Classes */
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+.fade-in-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .section {
+        padding: 60px 0;
+    }
+
+    .navbar {
+        padding: 20px;
+    }
+
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
     .hero-subtitle-large {
-        font-size: 2rem;
+        font-size: 1.5rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
     }
 
     .nav-links {
         display: none;
-        /* Add hamburger logic in JS or CSS */
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        background-color: var(--card-bg);
+        /* Better contrast on mobile menu */
         position: absolute;
         top: 70px;
         right: 0;
-        width: 100%;
-        background-color: var(--bg-color);
-        flex-direction: column;
-        align-items: center;
         padding: 20px;
         box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
     }
 
     .nav-links.active {
         display: flex;
+        animation: fadeIn 0.3s ease-in-out;
     }
-
-
 
     .jobs-tabs {
         flex-direction: column;
@@ -552,6 +575,7 @@ footer {
         border-left: none;
         border-bottom: 2px solid var(--card-hover);
         overflow-x: auto;
+        margin-bottom: 20px;
     }
 
     .job-tab {
@@ -559,6 +583,8 @@ footer {
         border-bottom: 2px solid transparent;
         margin-left: 0;
         margin-bottom: -2px;
+        white-space: nowrap;
+        /* Prevent breaking names */
     }
 
     .job-tab:hover,
@@ -581,50 +607,44 @@ footer {
         background-color: var(--accent-color);
         transition: all 0.3s ease-in-out;
     }
-}
 
-/* Fade In Animation Classes */
-.fade-in-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease-out;
-}
-
-.fade-in-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Ensure mobile nav works */
-.hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-
-.hamburger.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
-
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        text-align: center;
-        background-color: var(--bg-color);
-        position: absolute;
-        top: 60px;
-        /* Adjust based on navbar height */
-        left: 0;
-        z-index: 999;
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
     }
 
-    .nav-links.active {
-        display: flex;
-        animation: fadeIn 0.3s ease-in-out;
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .contact-container {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-primary,
+    .btn-outline {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-title::after {
+        width: 100%;
+        /* line takes remaining space */
+        max-width: 100px;
     }
 }
 
